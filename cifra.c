@@ -15,44 +15,17 @@
 
 typedef char * string;
 
+
+// define a posição de cada letra no alfabeto
+string alfabeto[27] = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
+					   "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
+					   "w", "x", "y", "z", "\0"};
+
+
+// retorna o a posicao de uma letra
 int Endereco(string letra){
 
-	// define a posição de cada letra no alfabeto
-
-	string alfabeto[25];
-	  alfabeto[0] = "a";
-	  alfabeto[1] = "b";
-	  alfabeto[2] = "c";
-	  alfabeto[3] = "d";
-	  alfabeto[4] = "e";
-	  alfabeto[5] = "e";
-	  alfabeto[6] = "f";
-	  alfabeto[7] = "g";
-	  alfabeto[8] = "h";
-	  alfabeto[9] = "i";
-	  alfabeto[10] = "j";
-	  alfabeto[11] = "k";
-	  alfabeto[12] = "l";
-	  alfabeto[13] = "m";
-	  alfabeto[14] = "n";
-	  alfabeto[15] = "o";
-	  alfabeto[16] = "p";
-	  alfabeto[17] = "q";
-	  alfabeto[18] = "r";
-	  alfabeto[19] = "s";
-	  alfabeto[20] = "t";
-	  alfabeto[21] = "v";
-	  alfabeto[22] = "w";
-	  alfabeto[23] = "x";
-	  alfabeto[24] = "y";
-	  alfabeto[25] = "z";
-	  alfabeto[26] = "\0";
-
-	  int cifra = 0;
-
-	  int i;
-
-	  // retorna o a posicao de uma letra
+	  int cifra = 0, i=0;
 	  while (alfabeto[i] != '\0'){
 		  if(letra == alfabeto[i]){
 			  cifra = i;
@@ -61,54 +34,54 @@ int Endereco(string letra){
 		  i++;
 	  }
 
-	  fprintf("%d", cifra);
 	  return cifra;
 }
 
+// funcao de encriptacao
 string Cifrar(string nome, string chave, int contador){
 
-	string alfabeto[25];
-	  alfabeto[0] = "a";
-	  alfabeto[1] = "b";
-	  alfabeto[2] = "c";
-	  alfabeto[3] = "d";
-	  alfabeto[4] = "e";
-	  alfabeto[5] = "e";
-	  alfabeto[6] = "f";
-	  alfabeto[7] = "g";
-	  alfabeto[8] = "h";
-	  alfabeto[9] = "i";
-	  alfabeto[10] = "j";
-	  alfabeto[11] = "k";
-	  alfabeto[12] = "l";
-	  alfabeto[13] = "m";
-	  alfabeto[14] = "n";
-	  alfabeto[15] = "o";
-	  alfabeto[16] = "p";
-	  alfabeto[17] = "q";
-	  alfabeto[18] = "r";
-	  alfabeto[19] = "s";
-	  alfabeto[20] = "t";
-	  alfabeto[21] = "v";
-	  alfabeto[22] = "w";
-	  alfabeto[23] = "x";
-	  alfabeto[24] = "y";
-	  alfabeto[25] = "z";
-	  alfabeto[26] = "\0";
-
-	// funcao de encriptacao
 	int posicao = (Endereco(nome) + Endereco(chave) + contador) % 26;
 	string cifra = alfabeto[posicao];
 
 	return cifra;
 }
 
-// TODO funcao de descifrar
+// funcao de desencriptacao
+string Descifrar(string nomeCifrado, string chave, int contador){
+
+	int posicao = (Endereco(nomeCifrado) - Endereco(chave) - contador) % 26;
+
+	// para achar uma posicao entre 0 e 26
+	if(posicao<0){
+		posicao = posicao+26;
+	}
+
+	string descifra = alfabeto[posicao];
+
+	return descifra;
+}
+
 
 int main(void){
 
-	string d = Cifrar("a","j", 1);
-	puts(d);
+	string mensagem = "l"; // consegui implementar apenas uma letra
+	string chave = "j";
+	int contador = 10;
+
+	// encripta
+	string cifra = Cifrar(mensagem, chave, contador);
+	puts(cifra);
+
+	// desencripta
+	string descifra = Descifrar(cifra, chave, contador);
+	puts(descifra);
+
+	char nome[7] = "leandro";
+	int c=0;
+
+	string o = Cifrar(nome[1], chave, contador);
+
+	printf("%s", o);
 
 	return 0;
 }
